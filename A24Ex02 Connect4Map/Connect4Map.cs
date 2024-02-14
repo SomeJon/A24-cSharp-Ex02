@@ -12,5 +12,16 @@ namespace A24_Ex02
             Player1Token,
             Player2Token,
         }
+        private eSlots[,] m_board;
+        
+        public eSlots[,] Boardx 
+        {
+            get 
+            {
+                readonly eSlots[,] o_board = m_board;
+                return m_board; 
+            }
+            set { m_board = value; }
+        }
     }
 }
