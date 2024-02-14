@@ -73,7 +73,6 @@ namespace A24_Ex02
         private const byte k_MinColumnSize = 4;
         private Connect4Board? m_Board;
         
-
         public Connect4Board? Board
         {
             get
@@ -114,7 +113,6 @@ namespace A24_Ex02
             
             return successfulTokenEntry;
         }
-
 
         private bool CheckBoardSize(byte i_NumOfRows, byte i_NumOfColumns)
         {
