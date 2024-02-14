@@ -7,7 +7,8 @@ namespace A24_Ex02
     {
         public static void Main()
         {
-
+            GameInterface test = new GameInterface();
+            test.testRun();
         }
 
         public static void Run()
