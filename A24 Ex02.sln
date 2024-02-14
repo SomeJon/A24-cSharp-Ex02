@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{87CFF0EA-2568-4F52-B2C9-F5EAB485863A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Map", "Connect4Map\Connect4Map.csproj", "{8453DBC7-E11A-41B3-8FA7-058888D8904A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4BoardLogic", "Connect4Map\Connect4BoardLogic.csproj", "{8453DBC7-E11A-41B3-8FA7-058888D8904A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameInterface", "GameInterface\GameInterface.csproj", "{2029ABC5-FED5-4064-8045-EA596CDE29F0}"
 EndProject

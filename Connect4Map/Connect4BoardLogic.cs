@@ -4,7 +4,7 @@ using A24_Ex02;
 
 namespace A24_Ex02
 {
-    public class Connect4Map
+    public class Connect4BoardLogic
     {
         public enum eSlots
         {
@@ -13,12 +13,15 @@ namespace A24_Ex02
             Player2Token,
         }
 
-        public struct Connect4Matrix
+        public struct Connect4Board
         {
             private eSlots[,] m_Matrix;
-
-            public Connect4Matrix(byte i_NumOfRows, byte i_NumOfColumns)
+            private byte m_NumOfColumns;
+            private byte m_NumOfRows;
+            public Connect4Board(byte i_NumOfRows, byte i_NumOfColumns)
             {
+                m_NumOfColumns = i_NumOfColumns;
+                m_NumOfRows = i_NumOfRows;
                 m_Matrix = new eSlots[i_NumOfRows, i_NumOfRows];
             }
 
@@ -27,6 +30,22 @@ namespace A24_Ex02
                 get
                 {
                     return m_Matrix;
+                }
+            }
+
+            public byte NumOfColumns
+            {
+                get 
+                { 
+                    return m_NumOfColumns; 
+                }
+            }
+
+            public byte NumOfRows
+            {
+                get
+                {
+                    return NumOfRows;
                 }
             }
 
@@ -52,11 +71,10 @@ namespace A24_Ex02
         private const byte k_MinRowSize = 4;
         private const byte k_MaxColumnSize = 8;
         private const byte k_MinColumnSize = 4;
-        private Connect4Matrix? m_Board;
-        private byte m_NumOfColumns = k_MinColumnSize;
-        private byte m_NumOfRows = k_MinRowSize;
+        private Connect4Board? m_Board;
+        
 
-        public Connect4Matrix? Board
+        public Connect4Board? Board
         {
             get
             {
@@ -71,9 +89,7 @@ namespace A24_Ex02
             if (CheckBoardSize(i_NumOfRows, i_NumOfColumns) == true)
             {
                 validBoardInput = true;
-                m_Board = new Connect4Matrix(i_NumOfRows, i_NumOfColumns);
-                m_NumOfColumns = i_NumOfColumns;
-                m_NumOfRows = i_NumOfRows;
+                m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
             }
 
             return validBoardInput;
@@ -82,9 +98,9 @@ namespace A24_Ex02
         public bool EnterToken(byte i_Column, eSlots i_EnteredToken, ref byte o_ClosenessToVictory)
         {
             bool successfulTokenEntry;
-            byte rowToEnter = m_NumOfRows;
+            byte rowToEnter = m_Board.Value.NumOfRows;
 
-            if(m_Board.Value.GetSlot(rowToEnter, i_Column) == eSlots.EmptySlot)
+            if (m_Board.Value.GetSlot(rowToEnter, i_Column) == eSlots.EmptySlot)
             {
                 successfulTokenEntry = true;
                 rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
@@ -142,8 +158,8 @@ namespace A24_Ex02
             byte o_CurrCount = 0;
             byte rowCoordToCheck = (byte)((int)i_RowPlacement + i_RowDirection);
             byte columnCoordToCheck = (byte)((int)i_ColumnPlacement + i_ColumnDirection);
-            bool coordsInBoard = rowCoordToCheck >= 1 && rowCoordToCheck <= m_NumOfRows 
-                && columnCoordToCheck >= 1 && columnCoordToCheck <= m_NumOfColumns;
+            bool coordsInBoard = rowCoordToCheck >= 1 && rowCoordToCheck <= m_Board.Value.NumOfRows 
+                && columnCoordToCheck >= 1 && columnCoordToCheck <= m_Board.Value.NumOfColumns;
 
 
             if (coordsInBoard == true && m_Board.Value.GetSlot(rowCoordToCheck, columnCoordToCheck) == i_WantedToken)
