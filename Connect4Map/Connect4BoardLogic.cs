@@ -15,23 +15,23 @@ namespace A24_Ex02
 
         public struct Connect4Board
         {
-            private eSlots[,] m_Matrix;
+            private eSlots[,] m_Board;
             private byte m_NumOfColumns;
             private byte m_NumOfRows;
             public Connect4Board(byte i_NumOfRows, byte i_NumOfColumns)
             {
                 m_NumOfColumns = i_NumOfColumns;
                 m_NumOfRows = i_NumOfRows;
-                m_Matrix = new eSlots[i_NumOfRows, i_NumOfRows];
+                m_Board = new eSlots[i_NumOfRows, i_NumOfRows];
             }
 
-            public eSlots[,] Matrix
-            {
-                get
-                {
-                    return m_Matrix;
-                }
-            }
+            //public eSlots[,] Board
+            //{
+            //    get
+            //    {
+            //        return m_Board;
+            //    }
+            //}
 
             public byte NumOfColumns
             {
@@ -45,24 +45,24 @@ namespace A24_Ex02
             {
                 get
                 {
-                    return NumOfRows;
+                    return m_NumOfRows;
                 }
             }
 
             public eSlots GetSlot(byte i_Row, byte i_Column)
             {
-                return m_Matrix[i_Row - 1, i_Column - 1];
+                return m_Board[i_Row - 1, i_Column - 1];
             }
             internal byte EnterTokenToSlot(eSlots i_EnteredToken, byte i_Column)
             {
-                byte rowToCheck = 1;
+                byte rowToCheck = m_NumOfRows;
 
                 while (GetSlot(rowToCheck, i_Column) != eSlots.EmptySlot)
                 {
-                    rowToCheck++;
+                    rowToCheck--;
                 }
 
-                m_Matrix[rowToCheck, i_Column] = i_EnteredToken;
+                m_Board[rowToCheck - 1, i_Column - 1] = i_EnteredToken;
                 return rowToCheck;
             }
         }
@@ -97,12 +97,13 @@ namespace A24_Ex02
         public bool EnterToken(byte i_Column, eSlots i_EnteredToken, ref byte o_ClosenessToVictory)
         {
             bool successfulTokenEntry;
-            byte rowToEnter = m_Board.Value.NumOfRows;
+            const byte k_FirstRow = 1;
 
-            if (m_Board.Value.GetSlot(rowToEnter, i_Column) == eSlots.EmptySlot)
+            if (m_Board.Value.GetSlot(k_FirstRow, i_Column) == eSlots.EmptySlot)
             {
+                byte rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
+
                 successfulTokenEntry = true;
-                rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
                 o_ClosenessToVictory = CheckVictoryCloseness(i_EnteredToken, rowToEnter, i_Column);
             }
             else
@@ -147,7 +148,7 @@ namespace A24_Ex02
                 (int)CheckDirectionMatches(i_TokenToCheck, i_Row, i_Column, (k_Reverse * k_UpOrRight), k_UpOrRight));
             victoryCloseness = Math.Max(Math.Max(diagonalUp, diagonalDown), Math.Max(vertical, horizontal));
 
-            return victoryCloseness;
+            return ++victoryCloseness;
         }
 
         private byte CheckDirectionMatches(eSlots i_WantedToken, byte i_RowPlacement, byte i_ColumnPlacement, 
@@ -162,6 +163,7 @@ namespace A24_Ex02
 
             if (coordsInBoard == true && m_Board.Value.GetSlot(rowCoordToCheck, columnCoordToCheck) == i_WantedToken)
             {
+                o_CurrCount++;
                 o_CurrCount = (byte)((int)o_CurrCount + (int)CheckDirectionMatches
                     (i_WantedToken, rowCoordToCheck, columnCoordToCheck, i_RowDirection, i_ColumnDirection));
             }
