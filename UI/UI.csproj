@@ -42,7 +42,7 @@
     <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\A24Ex02 Connect4Map\Connect4Map.csproj">
+    <ProjectReference Include="..\Connect4Map\Connect4Map.csproj">
       <Project>{8453dbc7-e11a-41b3-8fa7-058888d8904a}</Project>
       <Name>Connect4Map</Name>
     </ProjectReference>
