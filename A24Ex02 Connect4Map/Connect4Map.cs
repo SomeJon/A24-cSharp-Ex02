@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace A24_Ex02
 {
-    internal class Connect4Map
+    public class Connect4Map
     {
-
+        public enum eSlots
+        {
+            Empty,
+            Player1Token,
+            Player2Token,
+        }
     }
 }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace A24Ex02
+namespace A24_Ex02
 {
-    internal class UI
+    public class UI
     {
+        
     }
 }

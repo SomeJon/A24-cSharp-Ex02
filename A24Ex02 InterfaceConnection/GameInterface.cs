@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace A24_Ex02
 {
-    internal class GameInterface
+    public class GameInterface
     {
+        
     }
 }
