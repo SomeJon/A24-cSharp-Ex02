@@ -42,13 +42,13 @@
     <Compile Include="GameInterface.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\A24Ex02 Connect4Map\A24Ex02 Connect4Map.csproj">
+    <ProjectReference Include="..\A24Ex02 Connect4Map\Connect4Map.csproj">
       <Project>{8453dbc7-e11a-41b3-8fa7-058888d8904a}</Project>
-      <Name>A24Ex02 Connect4Map</Name>
+      <Name>Connect4Map</Name>
     </ProjectReference>
-    <ProjectReference Include="..\A24Ex02 UI\A24Ex02 UI.csproj">
+    <ProjectReference Include="..\A24Ex02 UI\UI.csproj">
       <Project>{f089ce84-94b7-48c8-afb2-9a4ba419bd24}</Project>
-      <Name>A24Ex02 UI</Name>
+      <Name>UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

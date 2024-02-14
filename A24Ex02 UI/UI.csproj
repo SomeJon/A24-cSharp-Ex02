@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{87CFF0EA-2568-4F52-B2C9-F5EAB485863A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>A24_Ex02</RootNamespace>
-    <AssemblyName>A24 Ex02</AssemblyName>
+    <ProjectGuid>{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>A24Ex02_UI</RootNamespace>
+    <AssemblyName>A24Ex02 UI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -39,12 +39,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\A24Ex02 InterfaceConnection\A24Ex02 GameInterface.csproj">
-      <Project>{2029abc5-fed5-4064-8045-ea596cde29f0}</Project>
-      <Name>A24Ex02 GameInterface</Name>
+    <ProjectReference Include="..\A24Ex02 Connect4Map\Connect4Map.csproj">
+      <Project>{8453dbc7-e11a-41b3-8fa7-058888d8904a}</Project>
+      <Name>Connect4Map</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

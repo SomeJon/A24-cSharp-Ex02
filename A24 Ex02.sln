@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A24Ex02Program", "A24 Ex02\A24Ex02Program.csproj", "{87CFF0EA-2568-4F52-B2C9-F5EAB485863A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "A24 Ex02\Program.csproj", "{87CFF0EA-2568-4F52-B2C9-F5EAB485863A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A24Ex02 Connect4Map", "A24Ex02 Connect4Map\A24Ex02 Connect4Map.csproj", "{8453DBC7-E11A-41B3-8FA7-058888D8904A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Map", "A24Ex02 Connect4Map\Connect4Map.csproj", "{8453DBC7-E11A-41B3-8FA7-058888D8904A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A24Ex02 GameInterface", "A24Ex02 InterfaceConnection\A24Ex02 GameInterface.csproj", "{2029ABC5-FED5-4064-8045-EA596CDE29F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameInterface", "A24Ex02 InterfaceConnection\GameInterface.csproj", "{2029ABC5-FED5-4064-8045-EA596CDE29F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "A24Ex02 UI", "A24Ex02 UI\A24Ex02 UI.csproj", "{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "A24Ex02 UI\UI.csproj", "{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
