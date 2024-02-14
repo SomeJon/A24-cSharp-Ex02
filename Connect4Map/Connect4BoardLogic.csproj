@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8453DBC7-E11A-41B3-8FA7-058888D8904A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>A24Ex02_Connect4Map</RootNamespace>
-    <AssemblyName>A24Ex02 Connect4Map</AssemblyName>
+    <RootNamespace>A24Ex02</RootNamespace>
+    <AssemblyName>Connect4BoardLogic</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -39,7 +39,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connect4Map.cs" />
+    <Compile Include="Connect4BoardLogic.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
