@@ -46,6 +46,7 @@ namespace A24_Ex02
             {
                 return m_Board[i_Row - 1, i_Column - 1];
             }
+
             internal byte EnterTokenToSlot(eSlots i_EnteredToken, byte i_Column)
             {
                 byte rowToCheck = m_NumOfRows;
@@ -56,14 +57,18 @@ namespace A24_Ex02
                 }
 
                 m_Board[rowToCheck - 1, i_Column - 1] = i_EnteredToken;
+
                 return rowToCheck;
             }
+
         }
 
         private const byte k_MaxRowSize = 8;
         private const byte k_MinRowSize = 4;
         private const byte k_MaxColumnSize = 8;
         private const byte k_MinColumnSize = 4;
+        public const byte k_FirstRow = 1;
+
         private Connect4Board? m_Board;
         
         public Connect4Board? Board
@@ -91,8 +96,6 @@ namespace A24_Ex02
         public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
             ref byte o_ClosenessToVictory, ref bool o_SuccessfulTokenEntry)
         {
-            const byte k_FirstRow = 1;
-
             if (m_Board.Value.GetSlot(k_FirstRow, i_Column) == eSlots.EmptySlot)
             {
                 byte rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
@@ -109,10 +112,8 @@ namespace A24_Ex02
 
         public bool IsValidColumn(byte i_ColumnNum)
         {
-            const byte k_FirstRow = 1;
-
             return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
-        } 
+        }
 
         private bool CheckBoardSize(byte i_NumOfRows, byte i_NumOfColumns)
         {
@@ -156,7 +157,7 @@ namespace A24_Ex02
             byte o_CurrCount = 0;
             byte rowCoordToCheck = (byte)((int)i_RowPlacement + i_RowDirection);
             byte columnCoordToCheck = (byte)((int)i_ColumnPlacement + i_ColumnDirection);
-            bool coordsInBoard = rowCoordToCheck >= 1 && rowCoordToCheck <= m_Board.Value.NumOfRows 
+            bool coordsInBoard = rowCoordToCheck >= k_FirstRow && rowCoordToCheck <= m_Board.Value.NumOfRows 
                 && columnCoordToCheck >= 1 && columnCoordToCheck <= m_Board.Value.NumOfColumns;
 
 
