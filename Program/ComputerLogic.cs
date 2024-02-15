@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace A24_Ex02
 {
-    internal class ComputerLogic
+    internal struct ComputerLogic
     {
         internal enum eAiType
         {
@@ -15,11 +15,23 @@ namespace A24_Ex02
             AiLevel2,
         }
 
-        eAiType m_AiType = eAiType.RandomAi;
+        private eAiType m_AiType;
 
-        internal eAiType m_AiType
+        public ComputerLogic(eAiType i_AiType)
         {
-            get { }
+            m_AiType = i_AiType;
+        }
+
+        internal eAiType AiType
+        {
+            get 
+            {
+                return m_AiType;
+            }
+            set 
+            { 
+                m_AiType = value;
+            }
         }
 
         internal byte GetTokenPlacemeant(Connect4BoardLogic.Connect4Board i_Board)
