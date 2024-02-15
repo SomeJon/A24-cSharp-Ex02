@@ -114,6 +114,13 @@ namespace A24_Ex02
             }
         }
 
+        public bool IsValidColumn(byte i_ColumnNum)
+        {
+            const byte k_FirstRow = 1;
+
+            return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
+        } 
+
         private bool CheckBoardSize(byte i_NumOfRows, byte i_NumOfColumns)
         {
             bool rowSizeCheck = (i_NumOfRows >= k_MinColumnSize && i_NumOfRows <= k_MaxRowSize);
