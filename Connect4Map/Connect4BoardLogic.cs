@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using A24_Ex02;
 
 
@@ -81,39 +81,45 @@ namespace A24_Ex02
             }
         }
 
-        public bool SetBoard(byte i_NumOfRows, byte i_NumOfColumns)
+        public void SetBoard(byte i_NumOfRows, byte i_NumOfColumns, 
+            ref bool o_IsValidBoardInput)
         {
-            bool validBoardInput = false;
-
             if (CheckBoardSize(i_NumOfRows, i_NumOfColumns) == true)
             {
-                validBoardInput = true;
+                o_IsValidBoardInput = true;
                 m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
             }
-
-            return validBoardInput;
+            else
+            {
+                o_IsValidBoardInput = false;
+            }
         }
 
-        public bool EnterToken(byte i_Column, eSlots i_EnteredToken, ref byte o_ClosenessToVictory)
+        public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
+            ref byte o_ClosenessToVictory, ref bool o_SuccessfulTokenEntry)
         {
-            bool successfulTokenEntry;
             const byte k_FirstRow = 1;
 
             if (m_Board.Value.GetSlot(k_FirstRow, i_Column) == eSlots.EmptySlot)
             {
                 byte rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
 
-                successfulTokenEntry = true;
+                o_SuccessfulTokenEntry = true;
                 o_ClosenessToVictory = CheckVictoryCloseness(i_EnteredToken, rowToEnter, i_Column);
             }
             else
             {
-                successfulTokenEntry = false;
+                o_SuccessfulTokenEntry = false;
                 o_ClosenessToVictory = 0;
             }
-            
-            return successfulTokenEntry;
         }
+
+        public bool IsValidColumn(byte i_ColumnNum)
+        {
+            const byte k_FirstRow = 1;
+
+            return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
+        } 
 
         private bool CheckBoardSize(byte i_NumOfRows, byte i_NumOfColumns)
         {
