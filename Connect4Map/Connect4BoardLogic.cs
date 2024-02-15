@@ -18,20 +18,13 @@ namespace A24_Ex02
             private eSlots[,] m_Board;
             private byte m_NumOfColumns;
             private byte m_NumOfRows;
+
             public Connect4Board(byte i_NumOfRows, byte i_NumOfColumns)
             {
                 m_NumOfColumns = i_NumOfColumns;
                 m_NumOfRows = i_NumOfRows;
                 m_Board = new eSlots[i_NumOfRows, i_NumOfRows];
             }
-
-            //public eSlots[,] Board
-            //{
-            //    get
-            //    {
-            //        return m_Board;
-            //    }
-            //}
 
             public byte NumOfColumns
             {
