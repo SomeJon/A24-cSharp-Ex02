@@ -5,11 +5,11 @@ using A24_Ex02;
 
 namespace A24_Ex02
 {
-    public class GameInterface
+    internal class GameInterface
     {
         Connect4BoardLogic test;
 
-        public void testRun()
+        internal void testRun()
         {
             test = new Connect4BoardLogic();
             byte n = 5;
