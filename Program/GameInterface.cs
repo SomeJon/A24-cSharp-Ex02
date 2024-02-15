@@ -7,7 +7,8 @@ namespace A24_Ex02
 {
     internal class GameInterface
     {
-        Connect4BoardLogic test;
+        Connect4BoardLogic test = new Connect4BoardLogic();
+        ComputerLogic.eAiType compType = ComputerLogic.eAiType.RandomAi;
 
         internal void testRun()
         {
@@ -24,14 +25,29 @@ namespace A24_Ex02
 
             test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
             Console.WriteLine(o_k);
-
-            test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
             UI.ShowBoard(test.Board.Value);
 
-            test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
-
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
+            UI.ShowBoard(test.Board.Value);
             Console.WriteLine(o_k);
+
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
             UI.ShowBoard(test.Board.Value);
+            Console.WriteLine(o_k);
         }
     }
 }

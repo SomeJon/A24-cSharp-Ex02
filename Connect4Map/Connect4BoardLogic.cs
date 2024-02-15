@@ -4,7 +4,7 @@ using A24_Ex02;
 
 namespace A24_Ex02
 {
-    public class Connect4BoardLogic
+    public struct Connect4BoardLogic
     {
         public enum eSlots
         {
@@ -113,6 +113,11 @@ namespace A24_Ex02
         public bool IsValidColumn(byte i_ColumnNum)
         {
             return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
+        }
+
+        public bool IsPossiblieColumn(byte i_ColumnToCheck)
+        {
+            return (m_Board.Value.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
         }
 
         private bool CheckBoardSize(byte i_NumOfRows, byte i_NumOfColumns)
