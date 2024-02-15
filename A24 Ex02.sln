@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4BoardLogic", "Connect4Map\Connect4BoardLogic.csproj", "{8453DBC7-E11A-41B3-8FA7-058888D8904A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameInterface", "GameInterface\GameInterface.csproj", "{2029ABC5-FED5-4064-8045-EA596CDE29F0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{8453DBC7-E11A-41B3-8FA7-058888D8904A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8453DBC7-E11A-41B3-8FA7-058888D8904A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8453DBC7-E11A-41B3-8FA7-058888D8904A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2029ABC5-FED5-4064-8045-EA596CDE29F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2029ABC5-FED5-4064-8045-EA596CDE29F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2029ABC5-FED5-4064-8045-EA596CDE29F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2029ABC5-FED5-4064-8045-EA596CDE29F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F089CE84-94B7-48C8-AFB2-9A4BA419BD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
