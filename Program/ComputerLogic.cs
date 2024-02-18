@@ -17,7 +17,7 @@ namespace A24_Ex02
 
         private static Random m_Random = new Random();
 
-        internal static byte GetTokenPlacemeant(ref Connect4BoardLogic i_BoardState, Connect4BoardLogic.eSlots i_ComputerToken, eAiType i_AiType)
+        internal static byte GetTokenPlacement(ref Connect4BoardLogic i_BoardState, Connect4BoardLogic.eSlots i_ComputerToken, eAiType i_AiType)
         {
             byte o_ChosenColumn = 0;
 
@@ -27,7 +27,7 @@ namespace A24_Ex02
                 do
                 {
                     o_ChosenColumn = GetRandomColumn(i_BoardState.Board.Value.NumOfColumns);
-                    possibleInput = i_BoardState.IsPossiblieColumn(o_ChosenColumn);
+                    possibleInput = i_BoardState.IsColumnNotAlreadyFull(o_ChosenColumn);
                 }
                 while (possibleInput == false);
             }
