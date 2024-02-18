@@ -43,6 +43,7 @@
     <Compile Include="ComputerLogic.cs" />
     <Compile Include="Connect4BoardLogic.cs" />
     <Compile Include="GameInterface.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="UI.cs" />
   </ItemGroup>

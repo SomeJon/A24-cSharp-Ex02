@@ -7,123 +7,59 @@ namespace A24_Ex02
 {
     public class UI
     {
-
-        public enum eKindOfPlayers
-        {
-            TwoPlayers,
-            PlayerAndComputer,
-        }
-
-        private eKindOfPlayers m_KindOfPlayers;
-        private byte m_NumOfRows, m_NumOfColumns;
-        private byte m_CurrentColumnToInsertTo;
-
-   
-
         private const char k_EmptySlot = ' ';
         private const char k_Player1Token = 'X';
         private const char k_Player2Token = 'O';
-        private const int k_MinNumOfColumnsOrRows = 4;
-        private const int k_MaxNumOfColumnsOrRows = 8;
-        public eKindOfPlayers KindOfPlayers
+
+        public static void OpeningMsg()
         {
-            set
-            {
-                int userNumInput;
-
-                Console.WriteLine($"Please choose which kind of player will play against you." +
-                    $"press '0' so another player'll play, or '1' so the computer'll play:  ");
-                while (true)
-                {
-                    string userStrInput = Console.ReadLine();
-
-                    if (int.TryParse(userStrInput, out userNumInput))
-                    {
-                        if (userNumInput != 0 && userNumInput == 1)
-                        {
-                            Console.WriteLine("Invalid input. Please enter either 0 or 1.");
-                        }
-                        else
-                        {
-                            break;
-                        } 
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid input. Please enter either 0 or 1.");
-                    }
-                }
-
-                m_KindOfPlayers = (eKindOfPlayers)userNumInput;
-            }
-
-            get
-            {
-                return m_KindOfPlayers;
-            }
+            Console.WriteLine("Hello! welcome to connect4 game! if you are a human being living on this" +
+            "miserable of a planet you really should already know the rules of this game. so let's skip straight ahead and start: \n");
         }
-        public byte NumOfRows
+        //הפונקציה למטה כאן בודקת רק אם האינפוט הוא מספר או לא. תכלס לא הבנתי למה לא כבר לבדוק האם המספר הוא גם בין 4 ל8.
+        //כאילו אם כבר ה"יו איי" מספקת פונקציה לקלוט מהמשתמש, למה שהיא כבר לא תבדוק את הקלט? היא גם ככה
+        //עושה איזו שהיא בדיקת קלט. אז עד הסוף, לא?
+        public static void GetNumOfRowsAndColumnsFromUser(out byte o_NumOfRows, out byte o_NumOfColumns)
         {
-            set
+            byte numOfRows, numOfColumns;
+
+            Console.WriteLine("please choose a number between {0} and {1} to be the number of rows: ",
+                Connect4BoardLogic.MinRowSize, Connect4BoardLogic.MaxRowSize);//הוספתי לצורך זה פרופרטיז סטטיים לקבועים שבמחלקה
+                                                                              //"קונקט4בוארד-לוג'יק". אולי זה באד פרקטיס?                                                  
+            string userInput = Console.ReadLine();
+            while(!byte.TryParse(userInput, out numOfRows))
             {
-                m_NumOfRows = value;
+                Console.WriteLine("inserted input wasn't a number. please try again: ");
+                userInput = Console.ReadLine();
+            }
+            
+            Console.WriteLine("please choose a number between 4 and 8 to be the number of columns: ");
+            userInput = Console.ReadLine();
+            while (!byte.TryParse(userInput, out numOfColumns))
+            {
+                Console.WriteLine("inserted input wasn't a number. please try again: ");
+                userInput = Console.ReadLine();
             }
 
-            get
-            {
-                return m_NumOfRows;
-            }
+            o_NumOfRows = numOfRows;
+            o_NumOfColumns = numOfColumns;
         }
-        public byte NumOfColumns
+        public static void GetTypeOfOtherPlayerFromUser(out GameInterface.ePlayerType o_Player2)
         {
-            set
-            {
-                m_NumOfColumns = value;
-            }
-
-            get
-            {
-                return m_NumOfColumns;
-            }
-        }
-
-        public byte CurrentColumnToInsertTo
-        {
-            set
-            {
-                Console.WriteLine("please choose a column to enter to: ");
-                m_CurrentColumnToInsertTo = getNumberBetween4And8ForRowsOrColumns();
-            }
-
-            get
-            {
-                return m_CurrentColumnToInsertTo;
-            }
-        }
-        public static void InvalidColumnChoiceMsg()
-        {
-            Console.WriteLine("the column you chose is out of range. please choose a legit number of column: ");
-        }
-        public static void ChooseANumberBetween4And8ForRowsMsg()
-        {
-            Console.WriteLine($"Please enter a number between {k_MinNumOfColumnsOrRows} and {k_MaxNumOfColumnsOrRows} to be the number of rows: ");
-        }
-
-        public static void ChooseANumberBetween4And8ForColumnsMsg()////יש כאן ובפונקציה השניה כפילות, כן. לא יודע איך מסדרים את זה
-        {
-            Console.WriteLine($"Please enter a number between {k_MinNumOfColumnsOrRows} and {k_MaxNumOfColumnsOrRows} to be the number of columns: ");
-        }
-        public static byte GetNumberBetween4And8ForRowsOrColumns()
-        {
-            byte number;
-
+            Console.WriteLine("Please choose which type of opponent you are playing agains ('0' for another player, '1' for a computer):");
             string input = Console.ReadLine();
-            while (!byte.TryParse(input, out number))
+            while (input != "0" && input != "1")
             {
-                Console.WriteLine("you entered an invalid input. please enter a valid number: ");
+                Console.WriteLine("Invalid input. Please enter 0 for a player, 1 for a computer:");
+                input = Console.ReadLine();
             }
 
-            return number;
+            o_Player2 = (GameInterface.ePlayerType)Enum.Parse(typeof(GameInterface.ePlayerType), input);
+        }
+        public static void InvalidRowAndColumnSizeMsg()
+        {
+            Console.WriteLine("chosen row or column size is out of range." +
+                "please choose a number between {0} and {1} for either of them:", Connect4BoardLogic.MinRowSize, Connect4BoardLogic.MaxRowSize);
         }
         public static void ShowBoard(Connect4BoardLogic.Connect4Board i_Board)
         {
@@ -134,7 +70,7 @@ namespace A24_Ex02
             lineToPrint.Capacity = lineSize;
 
             lineToPrint.Append(' ');
-            for (int columnToPrint = 1; columnToPrint <= numOfColumns; columnToPrint++) 
+            for (int columnToPrint = 1; columnToPrint <= numOfColumns; columnToPrint++)
             {
                 lineToPrint.Append(' ');
                 lineToPrint.Append(columnToPrint);
@@ -146,8 +82,8 @@ namespace A24_Ex02
             Console.WriteLine(lineToPrint);
             lineToPrint.Clear();
             lineToPrint.Capacity = lineSize;
-            
-            for(byte rowToPrint = 1; rowToPrint <= numOfRows; rowToPrint++)
+
+            for (byte rowToPrint = 1; rowToPrint <= numOfRows; rowToPrint++)
             {
                 lineToPrint.Append('|');
                 for (byte columnToPrint = 1; columnToPrint <= numOfColumns; columnToPrint++)
@@ -164,7 +100,7 @@ namespace A24_Ex02
                 lineToPrint.Clear();
                 lineToPrint.Capacity = lineSize;
 
-                for(int i = 0; i < lineSize; i++)
+                for (int i = 0; i < lineSize; i++)
                 {
                     lineToPrint.Append('=');
                 }
@@ -178,7 +114,7 @@ namespace A24_Ex02
         {
             char o_ReturnedChar;
 
-            switch(i_Token) 
+            switch (i_Token)
             {
                 case Connect4BoardLogic.eSlots.Player1Token:
                     o_ReturnedChar = k_Player1Token;
@@ -194,4 +130,7 @@ namespace A24_Ex02
             return o_ReturnedChar;
         }
     }
+
+
+
 }
