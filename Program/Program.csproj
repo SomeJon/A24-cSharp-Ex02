@@ -41,18 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComputerLogic.cs" />
+    <Compile Include="Connect4BoardLogic.cs" />
     <Compile Include="GameInterface.cs" />
     <Compile Include="Program.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Connect4Map\Connect4BoardLogic.csproj">
-      <Project>{8453dbc7-e11a-41b3-8fa7-058888d8904a}</Project>
-      <Name>Connect4BoardLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UI\UI.csproj">
-      <Project>{f089ce84-94b7-48c8-afb2-9a4ba419bd24}</Project>
-      <Name>UI</Name>
-    </ProjectReference>
+    <Compile Include="UI.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
