@@ -8,7 +8,7 @@ namespace A24_Ex02
 {
     internal class ComputerLogic
     {
-        internal enum eAiType
+        internal enum eAiType//v
         {
             RandomAi,
             AiLevel1,
