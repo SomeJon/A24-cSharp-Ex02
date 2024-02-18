@@ -5,11 +5,42 @@ using A24_Ex02;
 
 namespace A24_Ex02
 {
-    internal class GameInterface
+    public class GameInterface
     {
-        Connect4BoardLogic test = new Connect4BoardLogic();
-        ComputerLogic.eAiType compType = ComputerLogic.eAiType.RandomAi;
+        private Connect4BoardLogic Board = new Connect4BoardLogic();
+        private UI userInterface = new UI();
 
+        public void Run()
+        {
+            bool isValidInput = true;
+
+            do
+            {
+                if(!isValidInput)
+                {
+                    UI.InvalidColumnChoiceMsg();
+                }
+                UI.ChooseANumberBetween4And8ForRowsMsg();
+                userInterface.NumOfRows = UI.GetNumberBetween4And8ForRowsOrColumns();
+                UI.ChooseANumberBetween4And8ForColumnsMsg();
+                userInterface.NumOfColumns = UI.GetNumberBetween4And8ForRowsOrColumns();
+                Board.SetBoard(userInterface.NumOfRows, userInterface.NumOfColumns, out isValidInput);
+            } while (!isValidInput);
+
+
+
+        }
+        
+        
+
+
+
+
+
+
+
+/*        Connect4BoardLogic test = new Connect4BoardLogic();
+        ComputerLogic.eAiType compType = ComputerLogic.eAiType.RandomAi;
         internal void testRun()
         {
             test = new Connect4BoardLogic();
@@ -17,37 +48,37 @@ namespace A24_Ex02
             byte o_k = new byte();
             bool nothing = new bool();
 
-            test.SetBoard(n, n, ref nothing);
-            if (test.Board.Value.GetSlot(1,1) == Connect4BoardLogic.eSlots.EmptySlot)
+            test.SetBoard(n, n, out nothing);
+            if (test.Board.Value.GetSlot(1, 1) == Connect4BoardLogic.eSlots.EmptySlot)
                 Console.WriteLine("true");
-            test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
+            test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
             UI.ShowBoard(test.Board.Value);
 
-            test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
+            test.EnterToken(3, Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
             Console.WriteLine(o_k);
             UI.ShowBoard(test.Board.Value);
 
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
-                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
-                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
-                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
-                Connect4BoardLogic.eSlots.Player2Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, out o_k, out nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, out o_k, out nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, out o_k, out nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player2Token, compType),
+                Connect4BoardLogic.eSlots.Player2Token, out o_k, out nothing);
             UI.ShowBoard(test.Board.Value);
             Console.WriteLine(o_k);
 
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
-                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
-                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
-                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
-            test.EnterToken(ComputerLogic.GetTokenPlacemeant(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
-                Connect4BoardLogic.eSlots.Player1Token, ref o_k, ref nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
+            test.EnterToken(ComputerLogic.GetTokenPlacement(ref test, Connect4BoardLogic.eSlots.Player1Token, compType),
+                Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
             UI.ShowBoard(test.Board.Value);
             Console.WriteLine(o_k);
-        }
+        }*/
     }
 }

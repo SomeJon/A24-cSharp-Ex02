@@ -6,7 +6,7 @@ namespace A24_Ex02
 {
     public struct Connect4BoardLogic
     {
-        public enum eSlots
+        public enum eSlots//check2
         {
             EmptySlot,
             Player1Token,
@@ -67,7 +67,8 @@ namespace A24_Ex02
         private const byte k_MinRowSize = 4;
         private const byte k_MaxColumnSize = 8;
         private const byte k_MinColumnSize = 4;
-        public const byte k_FirstRow = 1;
+        public const byte k_FirstRow = 1;//אחר כך אתה משתמש בקבוע הזה כדי לבדוק אם מס' עמודה שהוכנסה הוא לגיטימי או חורג מהגבולות
+        //אז אולי כדאי לקרוא לזה בשם כמו "פירסט רואו אנד קולום"? שלא יורידו לנו נקודות על חוסר קריאות. ואולי זה שטויות
 
         private Connect4Board? m_Board;
         
@@ -79,10 +80,14 @@ namespace A24_Ex02
             }
         }
 
+
+        ///////למה לא מתודת סט בצורת פרופרטי?
+        ///בדיקת תקינות קלט בטוח ביחד עם הלוגיקה? אולי דווקא באינטרפייס?
+        ////שיניתי את רף בול ל"אאוט". הוא רק משתנה פלט
         public void SetBoard(byte i_NumOfRows, byte i_NumOfColumns, 
-            ref bool o_IsValidBoardInput)
+            out bool o_IsValidBoardInput)
         {
-            if (CheckBoardSize(i_NumOfRows, i_NumOfColumns) == true)
+            if (CheckIfValidBoardInput(i_NumOfRows, i_NumOfColumns) == true)
             {
                 o_IsValidBoardInput = true;
                 m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
@@ -93,10 +98,11 @@ namespace A24_Ex02
             }
         }
 
+        //שיניתי את רף בייט ורף בול ל"אאוט". הם רק משתני פלט
         public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
-            ref byte o_ClosenessToVictory, ref bool o_SuccessfulTokenEntry)
+            out byte o_ClosenessToVictory, out bool o_SuccessfulTokenEntry)
         {
-            if (m_Board.Value.GetSlot(k_FirstRow, i_Column) == eSlots.EmptySlot)
+            if (IsColumnNotAlreadyFull(i_Column))
             {
                 byte rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
 
@@ -115,12 +121,12 @@ namespace A24_Ex02
             return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
         }
 
-        public bool IsPossiblieColumn(byte i_ColumnToCheck)
+        public bool IsColumnNotAlreadyFull(byte i_ColumnToCheck)
         {
             return (m_Board.Value.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
         }
 
-        private bool CheckBoardSize(byte i_NumOfRows, byte i_NumOfColumns)
+        private bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
         {
             bool rowSizeCheck = (i_NumOfRows >= k_MinColumnSize && i_NumOfRows <= k_MaxRowSize);
             bool columnSizeCheck = (i_NumOfColumns >= k_MinColumnSize && i_NumOfColumns <= k_MaxColumnSize);
