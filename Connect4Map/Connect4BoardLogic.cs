@@ -6,7 +6,7 @@ namespace A24_Ex02
 {
     public struct Connect4BoardLogic
     {
-        public enum eSlots
+        public enum eSlots//check
         {
             EmptySlot,
             Player1Token,
