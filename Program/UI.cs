@@ -9,12 +9,13 @@ namespace A24_Ex02
     {
         private const char k_EmptySlot = ' ';
         private const char k_Player1Token = 'X';
-        private const char k_Player2Token = 'O';
+        private const char k_Player2Token = 'O';//stam
 
         public static void OpeningMsg()
         {
             Console.WriteLine("Hello! welcome to connect4 game! if you are a human being living on this" +
-            "miserable of a planet you really should already know the rules of this game. so let's skip straight ahead and start: \n");
+            "miserable of a planet you really should already know the rules of this game." +
+            "so let's skip straight ahead and start: \n");
         }
         //הפונקציה למטה כאן בודקת רק אם האינפוט הוא מספר או לא. תכלס לא הבנתי למה לא כבר לבדוק האם המספר הוא גם בין 4 ל8.
         //כאילו אם כבר ה"יו איי" מספקת פונקציה לקלוט מהמשתמש, למה שהיא כבר לא תבדוק את הקלט? היא גם ככה
