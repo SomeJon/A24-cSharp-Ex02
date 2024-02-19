@@ -1,4 +1,3 @@
-using System;
 using A24_Ex02;
 
 
@@ -84,6 +83,12 @@ namespace A24_Ex02
         ///////למה לא מתודת סט בצורת פרופרטי?
         ///בדיקת תקינות קלט בטוח ביחד עם הלוגיקה? אולי דווקא באינטרפייס?
         ////שיניתי את רף בול ל"אאוט". הוא רק משתנה פלט
+        
+        public static byte MaxRowSize { get; }
+        public static byte MinRowSize { get; }
+        public static byte MaxColumnSize { get; }
+        public static byte MinColumnSize { get; }
+
         public void SetBoard(byte i_NumOfRows, byte i_NumOfColumns, 
             out bool o_IsValidBoardInput)
         {
@@ -126,7 +131,7 @@ namespace A24_Ex02
             return (m_Board.Value.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
         }
 
-        public static bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
+        public bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
         {
             bool rowSizeCheck = (i_NumOfRows >= k_MinColumnSize && i_NumOfRows <= k_MaxRowSize);
             bool columnSizeCheck = (i_NumOfColumns >= k_MinColumnSize && i_NumOfColumns <= k_MaxColumnSize);

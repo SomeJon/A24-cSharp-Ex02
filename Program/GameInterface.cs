@@ -7,31 +7,34 @@ namespace A24_Ex02
 {
     public class GameInterface
     {
+        public enum ePlayerType//stam
+        {
+            Player,
+            Computer
+        }
+
+        private byte m_NumOfRows, m_NumOfColumns;
         private Connect4BoardLogic Board = new Connect4BoardLogic();
-        private UI userInterface = new UI();
+        private ePlayerType m_Player1 = ePlayerType.Player, m_player2;
 
         public void Run()
         {
-            bool isValidInput = true;
-
-            do
+            bool isValidNumOfRowsAndColumns = false;
+            UI.OpeningMsg();
+            while (!isValidNumOfRowsAndColumns)
             {
-                if(!isValidInput)
+                UI.GetNumOfRowsAndColumnsFromUser(out m_NumOfRows, out m_NumOfColumns);
+                Board.SetBoard(m_NumOfRows, m_NumOfColumns, out isValidNumOfRowsAndColumns);
+                if(!isValidNumOfRowsAndColumns)
                 {
-                    UI.InvalidColumnChoiceMsg();
+                    UI.InvalidRowAndColumnSizeMsg();
                 }
-                UI.ChooseANumberBetween4And8ForRowsMsg();
-                userInterface.NumOfRows = UI.GetNumberBetween4And8ForRowsOrColumns();
-                UI.ChooseANumberBetween4And8ForColumnsMsg();
-                userInterface.NumOfColumns = UI.GetNumberBetween4And8ForRowsOrColumns();
-                Board.SetBoard(userInterface.NumOfRows, userInterface.NumOfColumns, out isValidInput);
-            } while (!isValidInput);
+            }
 
+            UI.GetTypeOfOtherPlayerFromUser(out m_player2);
 
 
         }
-        
-        
 
 
 
@@ -39,7 +42,9 @@ namespace A24_Ex02
 
 
 
-/*        Connect4BoardLogic test = new Connect4BoardLogic();
+
+
+        Connect4BoardLogic test = new Connect4BoardLogic();
         ComputerLogic.eAiType compType = ComputerLogic.eAiType.RandomAi;
         internal void testRun()
         {
@@ -79,6 +84,6 @@ namespace A24_Ex02
                 Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
             UI.ShowBoard(test.Board.Value);
             Console.WriteLine(o_k);
-        }*/
+        }
     }
 }
