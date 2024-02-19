@@ -4,7 +4,7 @@ using A24_Ex02;
 
 namespace A24_Ex02
 {
-    public struct Connect4BoardLogic
+    public class Connect4BoardLogic
     {
         public enum eSlots
         {
@@ -21,9 +21,9 @@ namespace A24_Ex02
 
             public Connect4Board(byte i_NumOfRows, byte i_NumOfColumns)
             {
-                m_NumOfColumns = i_NumOfColumns;
                 m_NumOfRows = i_NumOfRows;
-                m_Board = new eSlots[i_NumOfRows, i_NumOfRows];
+                m_NumOfColumns = i_NumOfColumns;
+                m_Board = new eSlots[m_NumOfRows, m_NumOfColumns];
             }
 
             public byte NumOfColumns 
@@ -57,19 +57,14 @@ namespace A24_Ex02
 
         }
 
-        private const byte k_MaxRowSize = 8;
-        private const byte k_MinRowSize = 4;
-        private const byte k_MaxColumnSize = 8;
-        private const byte k_MinColumnSize = 4;
+        public const byte k_MaxRowSize = 8;
+        public const byte k_MinRowSize = 4;
+        public const byte k_MaxColumnSize = 8;
+        public const byte k_MinColumnSize = 4;
         public const byte k_FirstRow = 1;
-        private Connect4Board? m_Board;
+        private Connect4Board m_Board;
 
-        public static byte MaxRowSize { get; }
-        public static byte MinRowSize { get; }
-        public static byte MaxColumnSize { get; }
-        public static byte MinColumnSize { get; }
-
-        public Connect4Board? Board
+        public Connect4Board Board
         {
             get
             {
@@ -77,18 +72,16 @@ namespace A24_Ex02
             }
         }
 
-        public void SetBoard(byte i_NumOfRows, byte i_NumOfColumns, 
-            out bool o_IsValidBoardInput)
+        public Connect4BoardLogic() : this(k_MinRowSize, k_MinColumnSize){ }
+
+        public Connect4BoardLogic(byte i_NumOfRows, byte i_NumOfColumns)
         {
-            if (CheckIfValidBoardInput(i_NumOfRows, i_NumOfColumns) == true)
+            if (CheckIfValidBoardInput(i_NumOfRows, i_NumOfColumns) == false)
             {
-                o_IsValidBoardInput = true;
-                m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
+                throw new Exception("Invalid num of rows or columns");
             }
-            else
-            {
-                o_IsValidBoardInput = false;
-            }
+
+            m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
         }
 
         public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
@@ -96,7 +89,7 @@ namespace A24_Ex02
         {
             if (IsColumnNotAlreadyFull(i_Column))
             {
-                byte rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
+                byte rowToEnter = Board.EnterTokenToSlot(i_EnteredToken, i_Column);
 
                 o_SuccessfulTokenEntry = true;
                 o_ClosenessToVictory = CheckVictoryCloseness(i_EnteredToken, rowToEnter, i_Column);
@@ -110,12 +103,12 @@ namespace A24_Ex02
 
         public bool IsValidColumn(byte i_ColumnNum)
         {
-            return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
+            return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.NumOfColumns);
         }
 
         public bool IsColumnNotAlreadyFull(byte i_ColumnToCheck)
         {
-            return (m_Board.Value.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
+            return (m_Board.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
         }
 
         public static bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
@@ -160,11 +153,11 @@ namespace A24_Ex02
             byte o_CurrCount = 0;
             byte rowCoordToCheck = (byte)((int)i_RowPlacement + i_RowDirection);
             byte columnCoordToCheck = (byte)((int)i_ColumnPlacement + i_ColumnDirection);
-            bool coordsInBoard = rowCoordToCheck >= k_FirstRow && rowCoordToCheck <= m_Board.Value.NumOfRows 
-                && columnCoordToCheck >= 1 && columnCoordToCheck <= m_Board.Value.NumOfColumns;
+            bool coordsInBoard = rowCoordToCheck >= k_FirstRow && rowCoordToCheck <= m_Board.NumOfRows 
+                && columnCoordToCheck >= 1 && columnCoordToCheck <= m_Board.NumOfColumns;
 
 
-            if (coordsInBoard == true && m_Board.Value.GetSlot(rowCoordToCheck, columnCoordToCheck) == i_WantedToken)
+            if (coordsInBoard == true && m_Board.GetSlot(rowCoordToCheck, columnCoordToCheck) == i_WantedToken)
             {
                 o_CurrCount++;
                 o_CurrCount = (byte)((int)o_CurrCount + (int)CheckDirectionMatches

@@ -2,6 +2,7 @@
 using A24_Ex02;
 using System.Text;
 using static A24_Ex02.ComputerLogic;
+using System.Reflection.Emit;
 
 
 namespace A24_Ex02_ConsoleUi
@@ -17,131 +18,51 @@ namespace A24_Ex02_ConsoleUi
             HardPvC = 4
         }
 
-        private const char  k_EmptySlot = ' ';
-        private const char  k_Player1Token = 'X';
-        private const char  k_Player2Token = 'O';
-
         private class Messages
         {
-            internal const string   k_OpeningMSG =
-@"Hello! welcome to connect4 game!";
-            internal const string   k_GameTypeMSG = 
+            internal const string       k_OpeningMSG =
+@"Hello, welcome to connect4 game!";
+            internal const string       k_GameTypeMSG = 
 @"Please chose a game type from the options:
 (1) Player vs Player
 (2) Player vs Computer - Easy
 (3) Player vs Computer - Noraml
 (4) Player vs Computer - Hard";
-            internal const byte     k_GameTypeNumOfOptions = 4;
-            internal const string   k_InputWrongFormatMSG =
-@"Input does not match requsted format, please try again:";
-            internal const string   k_InputInvalidMSG =
-@"Inserted input is invalid, please try again:";
-            internal static string   k_InputBoardSizeMSG =
+            internal const byte         k_GameTypeNumOfOptions = 4;
+            internal const string       k_InputWrongFormatMSG =
+@"Input does not match requsted format. Please try again:";
+            internal const string       k_InputOutOfRangeMSG =
+@"Inserted input out of range. Please try again:";
+            internal const string k_ResetInput = "Q";
+            internal const string k_ColumnAlreadyFull = "Chosen Column is already full. Please try again:";
+            internal static string      k_InputBoardSizeMSG =
                 string.Format(
 @"Please enter board size
 Rows range is       {0}-{1}
 Columns range is    {2}-{3}
 Please enter the size of the board in the format (RowNum)x(ColumnRow)", 
-                Connect4BoardLogic.MinRowSize, Connect4BoardLogic.MaxRowSize, Connect4BoardLogic.MinColumnSize, Connect4BoardLogic.MaxRowSize);
-
+                Connect4BoardLogic.k_MinRowSize, Connect4BoardLogic.k_MaxRowSize, Connect4BoardLogic.k_MinColumnSize, Connect4BoardLogic.k_MaxRowSize);
+            internal static string k_ChoseColumnOptions =
+                string.Format(
+@"Please enter:
+A number representing a column, Or enter {0} to give up:", 
+k_ResetInput);
 
         }
+
+        private const char k_EmptySlot = ' ';
+        private const char k_Player1Token = 'X';
+        private const char k_Player2Token = 'O';
 
         public static void StartOfProgram
             (out Player o_Player1, out Player o_Player2, out ComputerLogic.eAiType o_AiType, out byte o_NumOfRows, out byte o_NumOfColumns)
         {
 
-            Console.WriteLine(@"{0}", Messages.k_OpeningMSG);
+            Console.WriteLine("{0}", Messages.k_OpeningMSG);
             SetPlayerAndComputerType(out o_Player1, out o_Player2, out o_AiType);
             GetBoardSize(out o_NumOfRows, out o_NumOfColumns);
         }
 
-        private static void SetPlayerAndComputerType(out Player o_Player1, out Player o_Player2, out ComputerLogic.eAiType o_AiType)
-        {
-            eUserChoice userChoice;
-            string recivedUserInput = Console.ReadLine();
-
-            Console.WriteLine("{1}", Messages.k_GameTypeMSG);
-            while (Enum.TryParse(recivedUserInput, out userChoice) == false)
-            {
-                {
-                    Console.WriteLine(Messages.k_InputWrongFormatMSG);
-                    recivedUserInput = Console.ReadLine();
-                }
-            }
-
-            o_Player1 = new Player(Player.ePlayerType.Player);
-            switch (userChoice)
-            {
-                case eUserChoice.PvP:
-                    o_Player2 = new Player(Player.ePlayerType.Player);
-                    o_AiType = new ComputerLogic.eAiType();
-                    break;
-                case eUserChoice.EasyPvC:
-                    o_Player2 = new Player(Player.ePlayerType.Computer);
-                    o_AiType = ComputerLogic.eAiType.RandomAi;
-                    break;
-                case eUserChoice.NormalPvC:
-                    o_Player2 = new Player(Player.ePlayerType.Computer);
-                    o_AiType = ComputerLogic.eAiType.AiLevel1;
-                    break;
-                case eUserChoice.HardPvC:
-                    o_Player2 = new Player(Player.ePlayerType.Computer);
-                    o_AiType = ComputerLogic.eAiType.AiLevel2;
-                    break;
-                default:
-                    o_Player2 = new Player(Player.ePlayerType.Player);
-                    o_AiType = new ComputerLogic.eAiType();
-                    break;
-            }
-        }
-
-        private static void GetIntNumFromUser(out int o_Num)
-        {
-            int num;
-            string userInput = Console.ReadLine();
-
-            while (int.TryParse(userInput, out num) == false)
-            {
-                Console.WriteLine(@"{0}", Messages.k_InputWrongFormatMSG);
-                userInput = Console.ReadLine();
-            }
-
-            o_Num = num;
-        }
-
-        private static void GetBoardSize(out byte o_NumOfRows, out byte o_NumOfColumns)
-        {
-            string userInput;
-            string[] numsOfUserInput;
-            bool checkInput;
-            byte numOfRows = new byte();
-            byte numOfColumns = new byte();
-            
-            Console.WriteLine(@"{0}", Messages.k_InputBoardSizeMSG);
-            userInput = Console.ReadLine();
-            numsOfUserInput = userInput.Split('(', ')', 'x', 'X');
-            checkInput = numsOfUserInput.Length == 2 && byte.TryParse(numsOfUserInput[0], out numOfRows) && byte.TryParse(numsOfUserInput[1], out numOfColumns);
-            if(checkInput == true)
-            {
-                checkInput = Connect4BoardLogic.CheckIfValidBoardInput(numOfRows, numOfColumns);
-            }
-
-            while(checkInput == false)
-            {
-                Console.WriteLine(@"{0}", Messages.k_InputWrongFormatMSG);
-                userInput = Console.ReadLine();
-                numsOfUserInput = userInput.Split('(', ')', 'x', 'X');
-                checkInput = numsOfUserInput.Length == 2 && byte.TryParse(numsOfUserInput[0], out numOfRows) && byte.TryParse(numsOfUserInput[1], out numOfColumns);
-                if (checkInput == true)
-                {
-                    checkInput = Connect4BoardLogic.CheckIfValidBoardInput(numOfRows, numOfColumns);
-                }
-            }
-
-            o_NumOfRows = numOfRows;
-            o_NumOfColumns = numOfColumns;
-        }
 
         public static void ShowBoard(Connect4BoardLogic.Connect4Board i_Board)
         {
@@ -193,6 +114,125 @@ Please enter the size of the board in the format (RowNum)x(ColumnRow)",
                 lineToPrint.Capacity = lineSize;
             }
         }
+
+        public static void ChoseColumnForToken(bool i_FirstToken, bool i_IsFull, out byte o_ColumnChosen)
+        {
+            string userInput;
+            string msg;
+            bool checkForRightInput = false;
+
+            if(i_FirstToken == true)
+            {
+                msg = Messages.k_ChoseColumnOptions;
+            }
+            else if(i_IsFull == true)
+            {
+                msg = Messages.k_ColumnAlreadyFull;
+            }
+            else
+            {
+                msg = Messages.k_InputOutOfRangeMSG;
+            }
+
+            Console.WriteLine(msg);
+            userInput = Console.ReadLine();
+
+            do
+            {
+                if (string.Equals(userInput, Messages.k_ResetInput) == true)
+                {
+                    o_ColumnChosen = GameInterface.k_NoColumnChosen;
+                    checkForRightInput = true;
+                }
+                else if (byte.TryParse(userInput, out o_ColumnChosen) == true)
+                {
+                    checkForRightInput = true;
+                }
+                else
+                {
+                    Console.WriteLine(Messages.k_InputWrongFormatMSG);
+                    userInput = Console.ReadLine();
+                }
+            }
+            while (checkForRightInput == false);
+
+        }
+
+        private static void SetPlayerAndComputerType(out Player o_Player1, out Player o_Player2, out ComputerLogic.eAiType o_AiType)
+        {
+            eUserChoice userChoice;
+            string recivedUserInput; 
+
+            Console.WriteLine("{0}", Messages.k_GameTypeMSG);
+            recivedUserInput = Console.ReadLine();
+            while (Enum.TryParse(recivedUserInput, out userChoice) == false)
+            {
+                {
+                    Console.WriteLine(Messages.k_InputWrongFormatMSG);
+                    recivedUserInput = Console.ReadLine();
+                }
+            }
+
+            o_Player1 = new Player(Player.ePlayerType.Player);
+            switch (userChoice)
+            {
+                case eUserChoice.PvP:
+                    o_Player2 = new Player(Player.ePlayerType.Player);
+                    o_AiType = new ComputerLogic.eAiType();
+                    break;
+                case eUserChoice.EasyPvC:
+                    o_Player2 = new Player(Player.ePlayerType.Computer);
+                    o_AiType = ComputerLogic.eAiType.RandomAi;
+                    break;
+                case eUserChoice.NormalPvC:
+                    o_Player2 = new Player(Player.ePlayerType.Computer);
+                    o_AiType = ComputerLogic.eAiType.AiLevel1;
+                    break;
+                case eUserChoice.HardPvC:
+                    o_Player2 = new Player(Player.ePlayerType.Computer);
+                    o_AiType = ComputerLogic.eAiType.AiLevel2;
+                    break;
+                default:
+                    o_Player2 = new Player(Player.ePlayerType.Player);
+                    o_AiType = new ComputerLogic.eAiType();
+                    break;
+            }
+        }
+
+        private static void GetBoardSize(out byte o_NumOfRows, out byte o_NumOfColumns)
+        {
+            string userInput;
+            char[] separators = new char[] { '(', ')', 'x', 'X', ' '};
+            string[] numsOfUserInput;
+            bool checkInput;
+            byte numOfRows = new byte();
+            byte numOfColumns = new byte();
+            
+            Console.WriteLine("{0}", Messages.k_InputBoardSizeMSG);
+            userInput = Console.ReadLine();
+            numsOfUserInput = userInput.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            checkInput = numsOfUserInput.Length == 2 && byte.TryParse(numsOfUserInput[0], out numOfRows) && byte.TryParse(numsOfUserInput[1], out numOfColumns);
+            if(checkInput == true)
+            {
+                checkInput = Connect4BoardLogic.CheckIfValidBoardInput(numOfRows, numOfColumns);
+            }
+
+            while(checkInput == false)
+            {
+                Console.WriteLine("{0}", Messages.k_InputWrongFormatMSG);
+                userInput = Console.ReadLine();
+                numsOfUserInput = userInput.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                checkInput = numsOfUserInput.Length == 2 && byte.TryParse(numsOfUserInput[0], out numOfRows) && byte.TryParse(numsOfUserInput[1], out numOfColumns);
+                if (checkInput == true)
+                {
+                    checkInput = Connect4BoardLogic.CheckIfValidBoardInput(numOfRows, numOfColumns);
+                }
+            }
+
+            o_NumOfRows = numOfRows;
+            o_NumOfColumns = numOfColumns;
+        }
+
         private static char ConverteSlotToChar(Connect4BoardLogic.eSlots i_Token)
         {
             char o_ReturnedChar;
