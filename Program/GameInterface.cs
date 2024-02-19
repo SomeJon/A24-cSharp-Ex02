@@ -32,8 +32,6 @@ namespace A24_Ex02
             }
 
             UI.GetTypeOfOtherPlayerFromUser(out m_player2);
-
-
         }
 
 

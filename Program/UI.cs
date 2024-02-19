@@ -20,6 +20,19 @@ namespace A24_Ex02
         //הפונקציה למטה כאן בודקת רק אם האינפוט הוא מספר או לא. תכלס לא הבנתי למה לא כבר לבדוק האם המספר הוא גם בין 4 ל8.
         //כאילו אם כבר ה"יו איי" מספקת פונקציה לקלוט מהמשתמש, למה שהיא כבר לא תבדוק את הקלט? היא גם ככה
         //עושה איזו שהיא בדיקת קלט. אז עד הסוף, לא?
+
+        public static void GetANumFromUserForInsertingToSlotOrForSetingTheBoard(out byte o_Num)
+        {
+            byte num;
+            string userInput = Console.ReadLine();
+            while (!byte.TryParse(userInput, out num))
+            {
+                Console.WriteLine("inserted input wasn't a number. please try again: ");
+                userInput = Console.ReadLine();
+            }
+
+            o_Num = num;
+        }
         public static void GetNumOfRowsAndColumnsFromUser(out byte o_NumOfRows, out byte o_NumOfColumns)
         {
             byte numOfRows, numOfColumns;
@@ -27,21 +40,10 @@ namespace A24_Ex02
             Console.WriteLine("please choose a number between {0} and {1} to be the number of rows: ",
                 Connect4BoardLogic.MinRowSize, Connect4BoardLogic.MaxRowSize);//הוספתי לצורך זה פרופרטיז סטטיים לקבועים שבמחלקה
                                                                               //"קונקט4בוארד-לוג'יק". אולי זה באד פרקטיס?                                                  
-            string userInput = Console.ReadLine();
-            while(!byte.TryParse(userInput, out numOfRows))
-            {
-                Console.WriteLine("inserted input wasn't a number. please try again: ");
-                userInput = Console.ReadLine();
-            }
-            
-            Console.WriteLine("please choose a number between 4 and 8 to be the number of columns: ");
-            userInput = Console.ReadLine();
-            while (!byte.TryParse(userInput, out numOfColumns))
-            {
-                Console.WriteLine("inserted input wasn't a number. please try again: ");
-                userInput = Console.ReadLine();
-            }
-
+            GetANumFromUserForInsertingToSlotOrForSetingTheBoard(out numOfRows);
+            Console.WriteLine("please choose a number between {0} and {1} to be the number of columns: ",
+                Connect4BoardLogic.MinRowSize, Connect4BoardLogic.MaxRowSize);
+            GetANumFromUserForInsertingToSlotOrForSetingTheBoard(out numOfColumns);
             o_NumOfRows = numOfRows;
             o_NumOfColumns = numOfColumns;
         }
