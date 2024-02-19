@@ -9,7 +9,7 @@ namespace A24_Ex02
     {
         private const char k_EmptySlot = ' ';
         private const char k_Player1Token = 'X';
-        private const char k_Player2Token = 'O';
+        private const char k_Player2Token = 'O';//
 
         public static void OpeningMsg()
         {
