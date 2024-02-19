@@ -1,3 +1,4 @@
+using System;
 using A24_Ex02;
 
 
@@ -5,7 +6,7 @@ namespace A24_Ex02
 {
     public struct Connect4BoardLogic
     {
-        public enum eSlots//check2
+        public enum eSlots
         {
             EmptySlot,
             Player1Token,
@@ -15,8 +16,8 @@ namespace A24_Ex02
         public struct Connect4Board
         {
             private eSlots[,] m_Board;
-            private byte m_NumOfColumns;
-            private byte m_NumOfRows;
+            private readonly byte m_NumOfColumns;
+            private readonly byte m_NumOfRows;
 
             public Connect4Board(byte i_NumOfRows, byte i_NumOfColumns)
             {
@@ -25,20 +26,14 @@ namespace A24_Ex02
                 m_Board = new eSlots[i_NumOfRows, i_NumOfRows];
             }
 
-            public byte NumOfColumns
+            public byte NumOfColumns 
             {
-                get 
-                { 
-                    return m_NumOfColumns; 
-                }
+                get { return m_NumOfColumns; }
             }
 
-            public byte NumOfRows
+            public byte NumOfRows 
             {
-                get
-                {
-                    return m_NumOfRows;
-                }
+                get { return m_NumOfRows; } 
             }
 
             public eSlots GetSlot(byte i_Row, byte i_Column)
@@ -66,11 +61,14 @@ namespace A24_Ex02
         private const byte k_MinRowSize = 4;
         private const byte k_MaxColumnSize = 8;
         private const byte k_MinColumnSize = 4;
-        public const byte k_FirstRow = 1;//אחר כך אתה משתמש בקבוע הזה כדי לבדוק אם מס' עמודה שהוכנסה הוא לגיטימי או חורג מהגבולות
-        //אז אולי כדאי לקרוא לזה בשם כמו "פירסט רואו אנד קולום"? שלא יורידו לנו נקודות על חוסר קריאות. ואולי זה שטויות
-
+        public const byte k_FirstRow = 1;
         private Connect4Board? m_Board;
-        
+
+        public static byte MaxRowSize { get; }
+        public static byte MinRowSize { get; }
+        public static byte MaxColumnSize { get; }
+        public static byte MinColumnSize { get; }
+
         public Connect4Board? Board
         {
             get
@@ -78,16 +76,6 @@ namespace A24_Ex02
                 return m_Board;
             }
         }
-
-
-        ///////למה לא מתודת סט בצורת פרופרטי?
-        ///בדיקת תקינות קלט בטוח ביחד עם הלוגיקה? אולי דווקא באינטרפייס?
-        ////שיניתי את רף בול ל"אאוט". הוא רק משתנה פלט
-        
-        public static byte MaxRowSize { get; }
-        public static byte MinRowSize { get; }
-        public static byte MaxColumnSize { get; }
-        public static byte MinColumnSize { get; }
 
         public void SetBoard(byte i_NumOfRows, byte i_NumOfColumns, 
             out bool o_IsValidBoardInput)
@@ -103,7 +91,6 @@ namespace A24_Ex02
             }
         }
 
-        //שיניתי את רף בייט ורף בול ל"אאוט". הם רק משתני פלט
         public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
             out byte o_ClosenessToVictory, out bool o_SuccessfulTokenEntry)
         {
@@ -131,7 +118,7 @@ namespace A24_Ex02
             return (m_Board.Value.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
         }
 
-        public bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
+        public static bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
         {
             bool rowSizeCheck = (i_NumOfRows >= k_MinColumnSize && i_NumOfRows <= k_MaxRowSize);
             bool columnSizeCheck = (i_NumOfColumns >= k_MinColumnSize && i_NumOfColumns <= k_MaxColumnSize);
@@ -186,6 +173,5 @@ namespace A24_Ex02
 
             return o_CurrCount;
         }
-
     }
 }

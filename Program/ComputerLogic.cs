@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace A24_Ex02
 {
-    internal class ComputerLogic
+    public class ComputerLogic
     {
-        internal enum eAiType//stam
+        public enum eAiType
         {
             RandomAi,
             AiLevel1,
