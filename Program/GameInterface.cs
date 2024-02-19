@@ -7,7 +7,7 @@ namespace A24_Ex02
 {
     public class GameInterface
     {
-        public enum ePlayerType
+        public enum ePlayerType///
         {
             Player,
             Computer
