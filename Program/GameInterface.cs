@@ -15,7 +15,7 @@ namespace A24_Ex02
 
         private byte m_NumOfRows, m_NumOfColumns;
         private Connect4BoardLogic Board = new Connect4BoardLogic();
-        private ePlayerType m_Player1, m_Player2;
+        private ePlayerType m_Player1 = ePlayerType.Player, m_player2;
 
         public void Run()
         {
@@ -30,9 +30,11 @@ namespace A24_Ex02
                     UI.InvalidRowAndColumnSizeMsg();
                 }
             }
+
+            UI.GetTypeOfOtherPlayerFromUser(out m_player2);
+
+
         }
-        
-        
 
 
 
@@ -40,7 +42,9 @@ namespace A24_Ex02
 
 
 
-/*        Connect4BoardLogic test = new Connect4BoardLogic();
+
+
+        Connect4BoardLogic test = new Connect4BoardLogic();
         ComputerLogic.eAiType compType = ComputerLogic.eAiType.RandomAi;
         internal void testRun()
         {
@@ -80,6 +84,6 @@ namespace A24_Ex02
                 Connect4BoardLogic.eSlots.Player1Token, out o_k, out nothing);
             UI.ShowBoard(test.Board.Value);
             Console.WriteLine(o_k);
-        }*/
+        }
     }
 }
