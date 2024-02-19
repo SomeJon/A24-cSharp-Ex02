@@ -26,7 +26,7 @@ namespace A24_Ex02
                 bool possibleInput = new bool();
                 do
                 {
-                    o_ChosenColumn = GetRandomColumn(i_BoardState.Board.Value.NumOfColumns);
+                    o_ChosenColumn = GetRandomColumn(i_BoardState.Board.NumOfColumns);
                     possibleInput = i_BoardState.IsColumnNotAlreadyFull(o_ChosenColumn);
                 }
                 while (possibleInput == false);
