@@ -7,28 +7,29 @@ namespace A24_Ex02
 {
     public class GameInterface
     {
+        public enum ePlayerType
+        {
+            Player,
+            Computer
+        }
+
+        private byte m_NumOfRows, m_NumOfColumns;
         private Connect4BoardLogic Board = new Connect4BoardLogic();
-        private UI userInterface = new UI();
+        private ePlayerType m_Player1, m_Player2;
 
         public void Run()
         {
-            bool isValidInput = true;
-
-            do
+            bool isValidNumOfRowsAndColumns = false;
+            UI.OpeningMsg();
+            while (!isValidNumOfRowsAndColumns)
             {
-                if(!isValidInput)
+                UI.GetNumOfRowsAndColumnsFromUser(out m_NumOfRows, out m_NumOfColumns);
+                Board.SetBoard(m_NumOfRows, m_NumOfColumns, out isValidNumOfRowsAndColumns);
+                if(!isValidNumOfRowsAndColumns)
                 {
-                    UI.InvalidColumnChoiceMsg();
+                    UI.InvalidRowAndColumnSizeMsg();
                 }
-                UI.ChooseANumberBetween4And8ForRowsMsg();
-                userInterface.NumOfRows = UI.GetNumberBetween4And8ForRowsOrColumns();
-                UI.ChooseANumberBetween4And8ForColumnsMsg();
-                userInterface.NumOfColumns = UI.GetNumberBetween4And8ForRowsOrColumns();
-                Board.SetBoard(userInterface.NumOfRows, userInterface.NumOfColumns, out isValidInput);
-            } while (!isValidInput);
-
-
-
+            }
         }
         
         
