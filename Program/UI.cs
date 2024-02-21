@@ -215,8 +215,6 @@ k_ResetInput);
             Ex02.ConsoleUtils.Screen.Clear();
             Console.WriteLine(Messages.k_GameEndMSG);
             Console.WriteLine(Messages.k_ScoresMSG, i_Player1Score, i_Player2Score);
-            Console.WriteLine("Press enter to close program");
-            Console.ReadLine();
         }
 
         private static void SetPlayerAndComputerType(out Player.ePlayerType o_Player1, out Player.ePlayerType o_Player2, out ComputerLogic.eAiType o_AiType)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,6 +61,7 @@ namespace A24_Ex02
             byte bestSelfClosness = 0;
             byte worstEnemyClosness = GameInterface.k_VictoryConnectCondition;
             byte bestSelfClosnessColumn = Connect4BoardLogic.k_FirstColumn;
+            bool allTheSame = true;
             Connect4BoardLogic.eSlots enemyToken;
 
             if(i_ComputerToken == Connect4BoardLogic.eSlots.Player1Token)
@@ -114,9 +116,30 @@ namespace A24_Ex02
                         worstEnemyClosness = maxEnemyClosness;
                         bestSelfClosness = currCloseness;
                         bestSelfClosnessColumn = column;
+                        if (allTheSame == true)
+                        {
+                            bool possibleInput;
+                            byte chosenColumn = 0;
+                            byte randomIndex;
+
+                            randomIndex = GetRandomColumn(i_BoardInstance.Board.GetNumOfNonFullColumns());
+                            while (randomIndex != 0)
+                            {
+                                chosenColumn++;
+                                possibleInput = i_BoardInstance.IsColumnNotAlreadyFull(chosenColumn);
+                                if (possibleInput == true)
+                                {
+                                    randomIndex--;
+                                }
+                            }
+
+                            bestSelfClosnessColumn = chosenColumn;
+                        }
+                        allTheSame = false;
                     }
                 }
             }
+            
             return bestSelfClosnessColumn;
         }
     }
