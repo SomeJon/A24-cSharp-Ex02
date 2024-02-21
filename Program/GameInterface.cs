@@ -103,7 +103,7 @@ namespace A24_Ex02
         {
             bool reset;
 
-            if (i_ClossnessToVictor == k_VictoryConnectCondition)
+            if (i_ClossnessToVictor >= k_VictoryConnectCondition)
             {
                 m_CurrPlayer.Score = (byte)((int)(m_CurrPlayer.Score) + 1);
                 UI.ShowBoard(m_Board.Board, m_Player1.Score, m_Player2.Score);

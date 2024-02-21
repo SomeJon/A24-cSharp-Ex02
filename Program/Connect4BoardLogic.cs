@@ -85,6 +85,14 @@ namespace A24_Ex02
 
                 return count;
             }
+
+            public Connect4Board Clone()
+            {
+                Connect4Board newBoard = (Connect4Board)this.MemberwiseClone();
+                newBoard.m_Board = (eSlots[,])m_Board.Clone();
+                return newBoard;
+            }
+
         }
 
         public const byte k_MaxRowSize = 8;
@@ -92,6 +100,7 @@ namespace A24_Ex02
         public const byte k_MaxColumnSize = 8;
         public const byte k_MinColumnSize = 4;
         public const byte k_FirstRow = 1;
+        public const byte k_FirstColumn = 1;
         private Connect4Board m_Board;
 
         public Connect4Board Board
@@ -116,7 +125,9 @@ namespace A24_Ex02
 
         public Connect4BoardLogic Clone()
         {
-            return (Connect4BoardLogic)MemberwiseClone();
+            Connect4BoardLogic newBoard = (Connect4BoardLogic)this.MemberwiseClone();
+            newBoard.m_Board = m_Board.Clone();
+            return newBoard;
         }
 
         public void ClearBoard()
