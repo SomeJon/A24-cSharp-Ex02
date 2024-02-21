@@ -17,42 +17,50 @@ namespace A24_Ex02
 
         private static Random m_Random = new Random();
 
-        internal static byte GetTokenPlacement(ref Connect4BoardLogic i_BoardState, Connect4BoardLogic.eSlots i_ComputerToken, eAiType i_AiType)
+        internal static void GetTokenPlacement
+            (Connect4BoardLogic i_BoardState, Connect4BoardLogic.eSlots i_ComputerToken, eAiType i_AiType, out byte o_ColumnChosen)
         {
-            byte o_ChosenColumn = 0;
+            byte chosenColumn = 0;
 
             if (i_AiType == eAiType.RandomAi)
             {
                 bool possibleInput = new bool();
-                do
+                byte randomIndex;
+
+                randomIndex = GetRandomColumn(i_BoardState.Board.GetNumOfNonFullColumns());
+                while(randomIndex !=0)
                 {
-                    o_ChosenColumn = GetRandomColumn(i_BoardState.Board.NumOfColumns);
-                    possibleInput = i_BoardState.IsColumnNotAlreadyFull(o_ChosenColumn);
+                    chosenColumn++; 
+                    possibleInput = i_BoardState.IsColumnNotAlreadyFull(chosenColumn);
+                    if (possibleInput == true)
+                    {
+                        randomIndex--;
+                    }
                 }
-                while (possibleInput == false);
+
             }
             else
             {
-                o_ChosenColumn = FindBestColumn(i_BoardState, i_ComputerToken, i_AiType);
+                chosenColumn = FindBestColumn(i_BoardState, i_ComputerToken, i_AiType);
             }
 
-            return o_ChosenColumn;
+            o_ColumnChosen = chosenColumn;
         }
 
         private static byte GetRandomColumn(byte i_NumOfColumns)
         {
-            byte o_ChosenColumn;
+            byte o_randomIndex;
 
-            o_ChosenColumn = (byte)m_Random.Next(Connect4BoardLogic.k_FirstRow, i_NumOfColumns);
+            o_randomIndex = (byte)m_Random.Next(Connect4BoardLogic.k_FirstRow, i_NumOfColumns);
 
-            return o_ChosenColumn;
+            return o_randomIndex;
         }
 
         private static byte FindBestColumn(Connect4BoardLogic i_BoardInstance, Connect4BoardLogic.eSlots i_ComputerToken, eAiType i_AiType)
         {
-            byte o_ChosenColumn = 0;
+            byte o_randomIndex = 0;
 
-            return o_ChosenColumn;
+            return o_randomIndex;
         }
     }
 }

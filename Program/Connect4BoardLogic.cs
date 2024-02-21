@@ -55,6 +55,36 @@ namespace A24_Ex02
                 return rowToCheck;
             }
 
+            public bool CheckFull()
+            {
+                bool isAllFull = true;
+
+                for (byte column = 1; column <= m_NumOfRows; column++)
+                {
+                    if(GetSlot(k_FirstRow, column) == eSlots.EmptySlot)
+                    {
+                        isAllFull = false;
+                        break;
+                    }
+                }
+
+                return isAllFull;
+            }
+
+            public byte GetNumOfNonFullColumns()
+            {
+                byte count = 0;
+
+                for (byte column = 1; column <= m_NumOfRows; column++)
+                {
+                    if (GetSlot(k_FirstRow, column) == eSlots.EmptySlot)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
         }
 
         public const byte k_MaxRowSize = 8;
@@ -82,6 +112,16 @@ namespace A24_Ex02
             }
 
             m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
+        }
+
+        public Connect4BoardLogic Clone()
+        {
+            return (Connect4BoardLogic)MemberwiseClone();
+        }
+
+        public void ClearBoard()
+        {
+            m_Board = new Connect4Board(m_Board.NumOfRows, m_Board.NumOfColumns);
         }
 
         public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
