@@ -35,8 +35,7 @@ namespace A24_Ex02_ConsoleUi
 @"Please chose a game type from the options:
 (1) Player vs Player
 (2) Player vs Computer - Easy
-(3) Player vs Computer - Noraml
-(4) Player vs Computer - Hard";
+(3) Player vs Computer - Noraml";
             internal const byte         k_GameTypeNumOfOptions = 4;
             internal const string       k_InputWrongFormatMSG =
 @"Input does not match requsted format. Please try again:";
@@ -57,10 +56,14 @@ Please enter the size of the board in the format (RowNum)x(ColumnRow)",
 A number representing a column, Or enter {0} to give up:", 
 k_ResetInput);
             internal const string k_AfterGameMenuMSG = "Would you like to play another round? Please enter 1 for yes, and 0 for no";
-            internal const string k_GameEndMSG =
-@"Game ended! ending scores are:
-Player 1 score - {0}
-Player 2 score - {1}";
+            internal const string k_GameEndMSG = "Game ended!";
+            internal const string k_ScoresMSG =
+@"--------------------------
+|Scores|Player 1|Player 2|
+--------------------------
+|xxxxxx|{0,8}|{1,8}|
+--------------------------
+";
         }
 
         private const char k_EmptySlot = ' ';
@@ -77,7 +80,7 @@ Player 2 score - {1}";
         }
 
 
-        public static void ShowBoard(Connect4BoardLogic.Connect4Board i_Board)
+        public static void ShowBoard(Connect4BoardLogic.Connect4Board i_Board, byte i_ScoreP1, byte i_ScoreP2)
         {
             byte numOfColumns = i_Board.NumOfColumns;
             byte numOfRows = i_Board.NumOfRows;
@@ -86,6 +89,7 @@ Player 2 score - {1}";
             lineToPrint.Capacity = lineSize;
 
             Ex02.ConsoleUtils.Screen.Clear();
+            Console.WriteLine(Messages.k_ScoresMSG, i_ScoreP1, i_ScoreP2);
             lineToPrint.Append(' ');
             for (int columnToPrint = 1; columnToPrint <= numOfColumns; columnToPrint++)
             {
@@ -177,13 +181,11 @@ Player 2 score - {1}";
 
             msg.Append(i_WinningPlayer.PlayerName);
             msg.Append(" has won the round!");
-            Ex02.ConsoleUtils.Screen.Clear();
             Console.WriteLine(msg);
         }
 
         public static void TieMSG()
         {
-            Ex02.ConsoleUtils.Screen.Clear();
             Console.WriteLine("Its a tie! no winner! everyone is a winner in a way!");
         }
 
@@ -196,9 +198,9 @@ Player 2 score - {1}";
 
             Console.WriteLine(Messages.k_AfterGameMenuMSG);
             userInput = Console.ReadLine();
-
+            
             checkInput = eReturnedValueAfterEnd.TryParse(userInput, out input);
-            while(checkInput == false)
+            while(checkInput == false || Enum.IsDefined(typeof(eReturnedValueAfterEnd), input) == false)
             {
                 Console.WriteLine(Messages.k_InputWrongFormatMSG);
                 userInput = Console.ReadLine();
@@ -211,7 +213,8 @@ Player 2 score - {1}";
         public static void ProgramEnd(byte i_Player1Score, byte i_Player2Score)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            Console.WriteLine(Messages.k_GameEndMSG, i_Player1Score, i_Player2Score);
+            Console.WriteLine(Messages.k_GameEndMSG);
+            Console.WriteLine(Messages.k_ScoresMSG, i_Player1Score, i_Player2Score);
             Console.WriteLine("Press enter to close program");
             Console.ReadLine();
         }
@@ -244,11 +247,7 @@ Player 2 score - {1}";
                     break;
                 case eUserChoice.NormalPvC:
                     o_Player2 = Player.ePlayerType.Computer;
-                    o_AiType = ComputerLogic.eAiType.AiLevel1;
-                    break;
-                case eUserChoice.HardPvC:
-                    o_Player2 = Player.ePlayerType.Computer;
-                    o_AiType = ComputerLogic.eAiType.AiLevel2;
+                    o_AiType = ComputerLogic.eAiType.Ai;
                     break;
                 default:
                     o_Player2 = Player.ePlayerType.Computer;

@@ -11,8 +11,7 @@ namespace A24_Ex02
         public enum eAiType
         {
             RandomAi,
-            AiLevel1,
-            AiLevel2,
+            Ai
         }
 
         private static Random m_Random = new Random();
@@ -24,7 +23,7 @@ namespace A24_Ex02
 
             if (i_AiType == eAiType.RandomAi)
             {
-                bool possibleInput = new bool();
+                bool possibleInput;
                 byte randomIndex;
 
                 randomIndex = GetRandomColumn(i_BoardState.Board.GetNumOfNonFullColumns());
