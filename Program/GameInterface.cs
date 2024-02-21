@@ -9,6 +9,7 @@ namespace A24_Ex02
 {
     public class GameInterface
     {
+        internal const byte k_ResetInput = 0;
         public const byte k_NoColumnChosen = 0;
         public const byte k_VictoryConnectCondition = 4;
         private Connect4BoardLogic m_Board;
@@ -34,9 +35,10 @@ namespace A24_Ex02
             byte columnToPutTokenInto;
             byte clossnessToVictory;
             bool successfulEntry;
+            bool inputReset = false;
             Connect4BoardLogic.eSlots slot;
 
-            if(m_CurrPlayer == m_Player1)
+            if (m_CurrPlayer == m_Player1)
             {
                 slot = Connect4BoardLogic.eSlots.Player1Token;
             }
@@ -47,13 +49,28 @@ namespace A24_Ex02
 
             if (m_CurrPlayer.PlayerType == Player.ePlayerType.Player)
             {
-                UI.ShowBoard(m_Board.Board);
+                UI.ShowBoard(m_Board.Board, m_Player1.Score, m_Player2.Score);
                 UI.ChoseColumnForToken(true, false, out columnToPutTokenInto);
-                m_Board.EnterToken(columnToPutTokenInto, slot, out clossnessToVictory, out successfulEntry);
-                while(successfulEntry == false)
+                if (columnToPutTokenInto == k_ResetInput)
                 {
-                    UI.ChoseColumnForToken(false, true, out columnToPutTokenInto);
+                    if (m_CurrPlayer == m_Player1)
+                    {
+                        m_CurrPlayer = m_Player2;
+                    }
+                    else
+                    {
+                        m_CurrPlayer = m_Player1;
+                    }
+                    clossnessToVictory = k_VictoryConnectCondition;
+                }
+                else
+                {
                     m_Board.EnterToken(columnToPutTokenInto, slot, out clossnessToVictory, out successfulEntry);
+                    while (successfulEntry == false)
+                    {
+                        UI.ChoseColumnForToken(false, true, out columnToPutTokenInto);
+                        m_Board.EnterToken(columnToPutTokenInto, slot, out clossnessToVictory, out successfulEntry);
+                    }
                 }
             }
             else
@@ -62,8 +79,9 @@ namespace A24_Ex02
                 m_Board.EnterToken(columnToPutTokenInto, slot, out clossnessToVictory, out successfulEntry);
             }
 
+
             EndGame(clossnessToVictory, out o_DidGameEnd);
-            if(o_DidGameEnd == false)
+            if (o_DidGameEnd == false)
             {
                 if (m_CurrPlayer == m_Player1)
                 {
@@ -78,15 +96,17 @@ namespace A24_Ex02
             {
                 UI.ProgramEnd(m_Player1.Score, m_Player2.Score);
             }
+
         }
 
         public void EndGame(byte i_ClossnessToVictor, out bool o_DidGameEnd)
         {
             bool reset;
 
-            if (i_ClossnessToVictor == k_VictoryConnectCondition)
+            if (i_ClossnessToVictor >= k_VictoryConnectCondition)
             {
                 m_CurrPlayer.Score = (byte)((int)(m_CurrPlayer.Score) + 1);
+                UI.ShowBoard(m_Board.Board, m_Player1.Score, m_Player2.Score);
                 UI.VictoyMSG(m_CurrPlayer);
                 UI.AfterRound(out reset);
                 if (reset == true)
@@ -101,6 +121,7 @@ namespace A24_Ex02
             }
             else if (m_Board.Board.CheckFull() == true)
             {
+                UI.ShowBoard(m_Board.Board, m_Player1.Score, m_Player2.Score);
                 UI.TieMSG();
                 UI.AfterRound(out reset);
                 if (reset == true)
