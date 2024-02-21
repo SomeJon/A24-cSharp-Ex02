@@ -3,6 +3,9 @@ using A24_Ex02;
 using System.Text;
 using static A24_Ex02.ComputerLogic;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Diagnostics.Contracts;
+using System.Security.Policy;
 
 
 namespace A24_Ex02_ConsoleUi
@@ -16,6 +19,12 @@ namespace A24_Ex02_ConsoleUi
             EasyPvC = 2,
             NormalPvC = 3,
             HardPvC = 4
+        }
+
+        private enum eReturnedValueAfterEnd
+        {
+            NoReset,
+            Reset
         }
 
         private class Messages
@@ -47,7 +56,11 @@ Please enter the size of the board in the format (RowNum)x(ColumnRow)",
 @"Please enter:
 A number representing a column, Or enter {0} to give up:", 
 k_ResetInput);
-
+            internal const string k_AfterGameMenuMSG = "Would you like to play another round? Please enter 1 for yes, and 0 for no";
+            internal const string k_GameEndMSG =
+@"Game ended! ending scores are:
+Player 1 score - {0}
+Player 2 score - {1}";
         }
 
         private const char k_EmptySlot = ' ';
@@ -55,7 +68,7 @@ k_ResetInput);
         private const char k_Player2Token = 'O';
 
         public static void StartOfProgram
-            (out Player o_Player1, out Player o_Player2, out ComputerLogic.eAiType o_AiType, out byte o_NumOfRows, out byte o_NumOfColumns)
+            (out Player.ePlayerType o_Player1, out Player.ePlayerType o_Player2, out ComputerLogic.eAiType o_AiType, out byte o_NumOfRows, out byte o_NumOfColumns)
         {
 
             Console.WriteLine("{0}", Messages.k_OpeningMSG);
@@ -158,7 +171,52 @@ k_ResetInput);
 
         }
 
-        private static void SetPlayerAndComputerType(out Player o_Player1, out Player o_Player2, out ComputerLogic.eAiType o_AiType)
+        public static void VictoyMSG(Player i_WinningPlayer)
+        {
+            StringBuilder msg = new StringBuilder("Victory! ");
+
+            msg.Append(i_WinningPlayer.PlayerName);
+            msg.Append(" has won the round!");
+            Ex02.ConsoleUtils.Screen.Clear();
+            Console.WriteLine(msg);
+        }
+
+        public static void TieMSG()
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            Console.WriteLine("Its a tie! no winner! everyone is a winner in a way!");
+        }
+
+        public static void AfterRound(out bool o_PlayAgain)
+        {
+            
+            string userInput;
+            eReturnedValueAfterEnd input;
+            bool checkInput;
+
+            Console.WriteLine(Messages.k_AfterGameMenuMSG);
+            userInput = Console.ReadLine();
+
+            checkInput = eReturnedValueAfterEnd.TryParse(userInput, out input);
+            while(checkInput == false)
+            {
+                Console.WriteLine(Messages.k_InputWrongFormatMSG);
+                userInput = Console.ReadLine();
+                checkInput = eReturnedValueAfterEnd.TryParse(userInput, out input);
+            }
+
+            o_PlayAgain = input == eReturnedValueAfterEnd.Reset;
+        }
+
+        public static void ProgramEnd(byte i_Player1Score, byte i_Player2Score)
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
+            Console.WriteLine(Messages.k_GameEndMSG, i_Player1Score, i_Player2Score);
+            Console.WriteLine("Press enter to close program");
+            Console.ReadLine();
+        }
+
+        private static void SetPlayerAndComputerType(out Player.ePlayerType o_Player1, out Player.ePlayerType o_Player2, out ComputerLogic.eAiType o_AiType)
         {
             eUserChoice userChoice;
             string recivedUserInput; 
@@ -173,27 +231,27 @@ k_ResetInput);
                 }
             }
 
-            o_Player1 = new Player(Player.ePlayerType.Player);
+            o_Player1 = Player.ePlayerType.Player;
             switch (userChoice)
             {
                 case eUserChoice.PvP:
-                    o_Player2 = new Player(Player.ePlayerType.Player);
+                    o_Player2 = Player.ePlayerType.Player;
                     o_AiType = new ComputerLogic.eAiType();
                     break;
                 case eUserChoice.EasyPvC:
-                    o_Player2 = new Player(Player.ePlayerType.Computer);
+                    o_Player2 = Player.ePlayerType.Computer;
                     o_AiType = ComputerLogic.eAiType.RandomAi;
                     break;
                 case eUserChoice.NormalPvC:
-                    o_Player2 = new Player(Player.ePlayerType.Computer);
+                    o_Player2 = Player.ePlayerType.Computer;
                     o_AiType = ComputerLogic.eAiType.AiLevel1;
                     break;
                 case eUserChoice.HardPvC:
-                    o_Player2 = new Player(Player.ePlayerType.Computer);
+                    o_Player2 = Player.ePlayerType.Computer;
                     o_AiType = ComputerLogic.eAiType.AiLevel2;
                     break;
                 default:
-                    o_Player2 = new Player(Player.ePlayerType.Player);
+                    o_Player2 = Player.ePlayerType.Computer;
                     o_AiType = new ComputerLogic.eAiType();
                     break;
             }
@@ -253,7 +311,4 @@ k_ResetInput);
             return o_ReturnedChar;
         }
     }
-
-
-
 }
