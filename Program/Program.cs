@@ -7,13 +7,18 @@ namespace A24_Ex02
     {
         public static void Main()
         {
-            GameInterface test = new GameInterface();
-            test.testRun();
+            Run();
         }
 
         public static void Run()
         {
+            bool didGameEnd = false;
 
+            GameInterface gameInstance = new GameInterface();
+            while(didGameEnd == false) 
+            {
+                gameInstance.NextTurn(out didGameEnd);
+            }
         }
     }
 }

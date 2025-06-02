@@ -1,11 +1,12 @@
+using System;
 using A24_Ex02;
 
 
 namespace A24_Ex02
 {
-    public struct Connect4BoardLogic
+    public class Connect4BoardLogic
     {
-        public enum eSlots//check2
+        public enum eSlots
         {
             EmptySlot,
             Player1Token,
@@ -15,30 +16,24 @@ namespace A24_Ex02
         public struct Connect4Board
         {
             private eSlots[,] m_Board;
-            private byte m_NumOfColumns;
-            private byte m_NumOfRows;
+            private readonly byte m_NumOfColumns;
+            private readonly byte m_NumOfRows;
 
             public Connect4Board(byte i_NumOfRows, byte i_NumOfColumns)
             {
-                m_NumOfColumns = i_NumOfColumns;
                 m_NumOfRows = i_NumOfRows;
-                m_Board = new eSlots[i_NumOfRows, i_NumOfRows];
+                m_NumOfColumns = i_NumOfColumns;
+                m_Board = new eSlots[m_NumOfRows, m_NumOfColumns];
             }
 
-            public byte NumOfColumns
+            public byte NumOfColumns 
             {
-                get 
-                { 
-                    return m_NumOfColumns; 
-                }
+                get { return m_NumOfColumns; }
             }
 
-            public byte NumOfRows
+            public byte NumOfRows 
             {
-                get
-                {
-                    return m_NumOfRows;
-                }
+                get { return m_NumOfRows; } 
             }
 
             public eSlots GetSlot(byte i_Row, byte i_Column)
@@ -60,18 +55,55 @@ namespace A24_Ex02
                 return rowToCheck;
             }
 
+            public bool CheckFull()
+            {
+                bool isAllFull = true;
+
+                for (byte column = 1; column <= m_NumOfRows; column++)
+                {
+                    if(GetSlot(k_FirstRow, column) == eSlots.EmptySlot)
+                    {
+                        isAllFull = false;
+                        break;
+                    }
+                }
+
+                return isAllFull;
+            }
+
+            public byte GetNumOfNonFullColumns()
+            {
+                byte count = 0;
+
+                for (byte column = 1; column <= m_NumOfRows; column++)
+                {
+                    if (GetSlot(k_FirstRow, column) == eSlots.EmptySlot)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+
+            public Connect4Board Clone()
+            {
+                Connect4Board newBoard = (Connect4Board)this.MemberwiseClone();
+                newBoard.m_Board = (eSlots[,])m_Board.Clone();
+                return newBoard;
+            }
+
         }
 
-        private const byte k_MaxRowSize = 8;
-        private const byte k_MinRowSize = 4;
-        private const byte k_MaxColumnSize = 8;
-        private const byte k_MinColumnSize = 4;
-        public const byte k_FirstRow = 1;//אחר כך אתה משתמש בקבוע הזה כדי לבדוק אם מס' עמודה שהוכנסה הוא לגיטימי או חורג מהגבולות
-        //אז אולי כדאי לקרוא לזה בשם כמו "פירסט רואו אנד קולום"? שלא יורידו לנו נקודות על חוסר קריאות. ואולי זה שטויות
+        public const byte k_MaxRowSize = 8;
+        public const byte k_MinRowSize = 4;
+        public const byte k_MaxColumnSize = 8;
+        public const byte k_MinColumnSize = 4;
+        public const byte k_FirstRow = 1;
+        public const byte k_FirstColumn = 1;
+        private Connect4Board m_Board;
 
-        private Connect4Board? m_Board;
-        
-        public Connect4Board? Board
+        public Connect4Board Board
         {
             get
             {
@@ -79,37 +111,36 @@ namespace A24_Ex02
             }
         }
 
+        public Connect4BoardLogic() : this(k_MinRowSize, k_MinColumnSize){ }
 
-        ///////למה לא מתודת סט בצורת פרופרטי?
-        ///בדיקת תקינות קלט בטוח ביחד עם הלוגיקה? אולי דווקא באינטרפייס?
-        ////שיניתי את רף בול ל"אאוט". הוא רק משתנה פלט
-        
-        public static byte MaxRowSize { get; }
-        public static byte MinRowSize { get; }
-        public static byte MaxColumnSize { get; }
-        public static byte MinColumnSize { get; }
-
-        public void SetBoard(byte i_NumOfRows, byte i_NumOfColumns, 
-            out bool o_IsValidBoardInput)
+        public Connect4BoardLogic(byte i_NumOfRows, byte i_NumOfColumns)
         {
-            if (CheckIfValidBoardInput(i_NumOfRows, i_NumOfColumns) == true)
+            if (CheckIfValidBoardInput(i_NumOfRows, i_NumOfColumns) == false)
             {
-                o_IsValidBoardInput = true;
-                m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
+                throw new Exception("Invalid num of rows or columns");
             }
-            else
-            {
-                o_IsValidBoardInput = false;
-            }
+
+            m_Board = new Connect4Board(i_NumOfRows, i_NumOfColumns);
         }
 
-        //שיניתי את רף בייט ורף בול ל"אאוט". הם רק משתני פלט
+        public Connect4BoardLogic Clone()
+        {
+            Connect4BoardLogic newBoard = (Connect4BoardLogic)this.MemberwiseClone();
+            newBoard.m_Board = m_Board.Clone();
+            return newBoard;
+        }
+
+        public void ClearBoard()
+        {
+            m_Board = new Connect4Board(m_Board.NumOfRows, m_Board.NumOfColumns);
+        }
+
         public void EnterToken(byte i_Column, eSlots i_EnteredToken, 
             out byte o_ClosenessToVictory, out bool o_SuccessfulTokenEntry)
         {
             if (IsColumnNotAlreadyFull(i_Column))
             {
-                byte rowToEnter = Board.Value.EnterTokenToSlot(i_EnteredToken, i_Column);
+                byte rowToEnter = Board.EnterTokenToSlot(i_EnteredToken, i_Column);
 
                 o_SuccessfulTokenEntry = true;
                 o_ClosenessToVictory = CheckVictoryCloseness(i_EnteredToken, rowToEnter, i_Column);
@@ -123,15 +154,15 @@ namespace A24_Ex02
 
         public bool IsValidColumn(byte i_ColumnNum)
         {
-            return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.Value.NumOfColumns);
+            return (i_ColumnNum >= k_FirstRow && i_ColumnNum <= m_Board.NumOfColumns);
         }
 
         public bool IsColumnNotAlreadyFull(byte i_ColumnToCheck)
         {
-            return (m_Board.Value.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
+            return (m_Board.GetSlot(k_FirstRow, i_ColumnToCheck) == eSlots.EmptySlot);
         }
 
-        public bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
+        public static bool CheckIfValidBoardInput(byte i_NumOfRows, byte i_NumOfColumns)
         {
             bool rowSizeCheck = (i_NumOfRows >= k_MinColumnSize && i_NumOfRows <= k_MaxRowSize);
             bool columnSizeCheck = (i_NumOfColumns >= k_MinColumnSize && i_NumOfColumns <= k_MaxColumnSize);
@@ -173,11 +204,11 @@ namespace A24_Ex02
             byte o_CurrCount = 0;
             byte rowCoordToCheck = (byte)((int)i_RowPlacement + i_RowDirection);
             byte columnCoordToCheck = (byte)((int)i_ColumnPlacement + i_ColumnDirection);
-            bool coordsInBoard = rowCoordToCheck >= k_FirstRow && rowCoordToCheck <= m_Board.Value.NumOfRows 
-                && columnCoordToCheck >= 1 && columnCoordToCheck <= m_Board.Value.NumOfColumns;
+            bool coordsInBoard = rowCoordToCheck >= k_FirstRow && rowCoordToCheck <= m_Board.NumOfRows 
+                && columnCoordToCheck >= 1 && columnCoordToCheck <= m_Board.NumOfColumns;
 
 
-            if (coordsInBoard == true && m_Board.Value.GetSlot(rowCoordToCheck, columnCoordToCheck) == i_WantedToken)
+            if (coordsInBoard == true && m_Board.GetSlot(rowCoordToCheck, columnCoordToCheck) == i_WantedToken)
             {
                 o_CurrCount++;
                 o_CurrCount = (byte)((int)o_CurrCount + (int)CheckDirectionMatches
@@ -186,6 +217,5 @@ namespace A24_Ex02
 
             return o_CurrCount;
         }
-
     }
 }
